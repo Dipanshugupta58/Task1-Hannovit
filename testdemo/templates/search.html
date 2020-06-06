@@ -1,0 +1,102 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HOME</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href={% static 'css/index.css' %} type="text/css">
+    <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %} type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src={% static 'js/bootstrap.min.js' %}> </script>
+  </head>
+  <body>
+    <fieldset class="container">
+      <legend>Search Page - </legend>
+        <!-- <form class="row" data-toggle="validator" role="form" action="/search_fetch/" method="post"> {% csrf_token %} -->
+          <form class="row" data-toggle="validator" role="form" action="#" method="POST" > {% csrf_token %}
+          <div class="form-group col-4">
+            <label for="lname">Choose Field:</label>
+            <select class="form-control" name="fcf">
+              <option value="name"> Name </option>
+              <option value="pan"> Pan Number </option>
+              <option value="age"> Age </option>
+              <option value="gender"> Gender </option>
+              <option value="email"> Email </option>
+              <option value="city"> City </option>
+            </select>
+          </div>
+
+          <div class="form-group col-6">
+            <label for="linput">Data of the Field:</label>
+            <input type="text" name="fdata" class="form-control" placeholder="Data According to the Field" value="">
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+
+          <div class="form-group col-2">
+            <label for="linput">  </label>
+            <input type="submit" class="form-control btn btn-danger" name="submit" value="Go">
+            <div class="valid-feedback">Valid.</div>
+            <div class="invalid-feedback">Please fill out this field.</div>
+          </div>
+
+        </form>
+    </fieldset>
+
+    <fieldset>
+      <legend>Records</legend>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Sno</th>
+            <th>Name</th>
+            <th>Pan No.</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Email </th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for i in data%}
+          <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.pan}}</td>
+            <td>{{i.age}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.city}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </fieldset>
+
+    <script>
+      // Disable form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Get the forms we want to add validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+
+  </body>
+</html>

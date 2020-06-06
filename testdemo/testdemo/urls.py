@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^add_record/$',views.add_record,name='add_record'),
     url(r'^update_record/$',views.update_record,name='update_record'),
     url(r'^update_record_save/$',views.update_record_save,name='update_record_save'),
+    url(r'^Search/$',views.search,name="search"),
+    # url(r'^search_fetch/$',views.search_fetch,name="search_fetch"),
     url(r'^Delete/$',views.Delete,name='Delete'),
 
 ]

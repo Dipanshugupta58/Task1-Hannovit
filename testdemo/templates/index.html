@@ -6,11 +6,15 @@
     <title>HOME</title>
     <link rel="stylesheet" href={% static 'css/index.css' %} type="text/css">
     <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %} type="text/css">
+    <script type="text/javascript" src={% static 'js/bootstrap.min.js' %}> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
   <body>
     <fieldset class="container">
       <legend>Form</legend>
-        <form class="row" action="/add_record/" method="post"> {% csrf_token %}
+        <form class="row was-validated" data-toggle="validator" role="form" action="/add_record/" method="post"> {% csrf_token %}
 
           <div class="form-group col-6">
             <label for="lname">Name:</label>
@@ -52,7 +56,10 @@
 
           <div class="form-group col-6">
             <input type="submit" name="submit" class="btn btn-success" value="Add Record">
-            <button type="button" class="btn btn-dark" name="search" > Search </button>
+            <a href="Search/">
+              <button type="button" class="btn btn-dark" name="search" > Go For Search </button>
+            </a>
+
 
           </div>
         </form>

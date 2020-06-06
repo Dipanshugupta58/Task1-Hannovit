@@ -20,8 +20,6 @@ def add_record(request):
     email = request.POST['email']
     city = request.POST['city']
 
-    # print(name)
-    print(pan)
     record = Record.objects.filter(pan=pan)
     if (record):
         print("Mached")
@@ -32,33 +30,10 @@ def add_record(request):
         return HttpResponse("<script> alert('Your Record Successfully Added..!'); location.href='/'; </script>")
 
 
-    # print(age)
-    # print(gender)
-    # print(email)
-    # print(city)
-
-
-    # vRecord = Record(name=name,age=age,pan=pan,gender=gender ,email=email, city=city)
-    # vRecord.save()
-
-    # a = Record.objects.all()
-
-    # return render(request,'index.html',{'data':a});
-    # return HttpResponse("<script> alert('Your Record Successfully Added..!'); location.href='/'; </script>")
-
 def update_record(request):
     print("Update Record Page")
     id=request.GET['data']
-
-    # r = Record.objects.get(id=id)
-
-    # print(r.id)
-    # print(r[0].pan)
-
     a = Record.objects.filter(id=id)
-    # print(a)
-
-
     return render(request,'update.html',{'data':a})
 
 
@@ -70,13 +45,6 @@ def update_record_save(request):
     gender = request.POST['gender']
     email = request.POST['email']
     city = request.POST['city']
-    # print(id)
-    # print(name)
-    # print(pan)
-    # print(age)
-    # print(gender)
-    # print(email)
-    # print(city)
 
     a = Record.objects.get(id=id)
     a.name = name
@@ -87,11 +55,47 @@ def update_record_save(request):
     a.city = city
     a.save()
 
-    # b = Record.objects.all()
-    # return render(request,'index.html',{'data':b});
     return HttpResponse("<script> alert('Your Record Successfully Updated..!'); location.href='/'; </script>")
 
 def Delete(request):
     id = request.GET['data']
     record = Record.objects.get(id=id).delete()
     return HttpResponse("<script> alert('Your Record Successfully Delete..!'); location.href='/'; </script>")
+
+
+def search(request):
+    if "submit" in request.POST:
+        fcdata = request.POST['fcf']
+        fdata = request.POST['fdata']
+
+        if fcdata == 'name':
+            print('name')
+            a = Record.objects.filter(name=fdata)
+            print(a)
+        elif fcdata == 'pan':
+            print('pan')
+            a = Record.objects.filter(pan=fdata)
+            print(a)
+        elif fcdata == 'age':
+            print('age')
+            a = Record.objects.filter(age=fdata)
+            print(a)
+        elif fcdata == 'gender':
+            print('gender')
+            a = Record.objects.filter(gender=fdata)
+            print(a)
+        elif fcdata == 'email':
+            print('email')
+            a = Record.objects.filter(email=fdata)
+            print(a)
+        elif fcdata == 'city':
+            print('city')
+            a = Record.objects.filter(city=fdata)
+            print(a)
+        else:
+            print('Nothing Matched')
+
+    else:
+        a = Record.objects.all()
+
+    return render(request,'search.html',{'data':a})
