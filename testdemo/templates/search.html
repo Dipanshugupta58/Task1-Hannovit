@@ -17,12 +17,13 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src={% static 'js/bootstrap.min.js' %}> </script>
     <script type="text/javascript" src={% static 'js/index.js' %}> </script>
+    <script type="text/javascript" src={% static 'js/formSearchValidate.js' %}> </script>
   </head>
   <body>
     <fieldset class="container">
       <legend>Search Page - </legend>
         <!-- <form class="row" data-toggle="validator" role="form" action="/search_fetch/" method="post"> {% csrf_token %} -->
-          <form class="row ui-widget" data-toggle="validator" role="form" action="#" method="POST" > {% csrf_token %}
+          <form class="row ui-widget" id="sForm" data-toggle="validator" role="form" action="#" method="POST" > {% csrf_token %}
           <div class="form-group col-4">
             <label for="lname">Choose Field:</label>
             <select class="form-control" id='dselect' name="fcf">
@@ -38,8 +39,8 @@
           <div class="form-group col-6">
             <label for="linput">Data of the Field:</label>
             <input type="text" name="fdata" class="form-control" id="tags" placeholder="Data According to the Field" value="">
-            <div class="valid-feedback">Valid.</div>
-            <div class="invalid-feedback">Please fill out this field.</div>
+            <div class="feedback"></div>
+            <!-- <div class="invalid-feedback">Please fill out this field.</div> -->
           </div>
 
           <div class="form-group col-2">

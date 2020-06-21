@@ -10,26 +10,30 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src={% static 'js/index1.js' %}></script>
   </head>
   <body>
     <fieldset class="container">
       <legend>Form</legend>
-        <form class="row was-validated" data-toggle="validator" role="form" action="/add_record/" method="post
-        "> {% csrf_token %}
+        <form id="addRecordForm" class="row was-validated" data-toggle="validator" role="form" action="/add_record/" method="post"> {% csrf_token %}
 
           <div class="form-group col-6">
             <label for="lname">Name:</label>
             <input type="name" name="name" class="form-control" id='name' placeholder="Name" required>
+            <span id="nameSpan"> </span>
+
           </div>
 
           <div class="form-group col-6">
             <label for="lpanno">Pan Number:</label>
-            <input type="text" name="panno" class="form-control" pattern="[A-Z,0-9]{15}" placeholder="Pan Number" required >  <!-- pattern="[A-Z,0-9]{15}" -->
+            <input type="text" name="panno" class="form-control" id="pan" pattern="[A-Z,0-9]{15}" placeholder="Pan Number" required >  <!-- pattern="[A-Z,0-9]{15}" -->
+            <span id="panSpan"> </span>
           </div>
 
           <div class="form-group col-6">
             <label for="lage">Age:</label>
-            <input type="text" name="age" class="form-control" pattern="[0-9]{2}" placeholder="Age" required>
+            <input type="text" name="age" class="form-control" id="age" pattern="[0-9]{2}" placeholder="Age" required>
+            <span id="ageSpan"> </span>
           </div>
 
           <div class="form-group col-6">
@@ -38,17 +42,18 @@
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
-            <!-- <input type="text" name="panno" class="form-control" placeholder="Pan Number" > -->
           </div>
 
           <div class="form-group col-6">
             <label for="lemail">Email:</label>
-            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+            <span id="emailSpan"> </span>
           </div>
 
           <div class="form-group col-6">
             <label for="lcity">City:</label>
-            <input type="text" name="city" class="form-control" placeholder="City" required>
+            <input type="text" name="city" class="form-control" id="city" placeholder="City" required>
+            <span id="citySpan"> </span>
           </div>
 
           <div class="form-group col-6">
@@ -66,40 +71,39 @@
       </form>
     </fieldset>
 
-    <fieldset>
+    <fieldset id="fRecord">
       <legend>Records</legend>
       <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Sno</th>
-        <th>Name</th>
-        <th>Pan No.</th>
-        <th>Age</th>
-        <th>Gender</th>
-        <th>Email </th>
-        <th>City</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%for i in data%}
-      <tr>
-        <td>{{i.id}}</td>
-        <td>{{i.name}}</td>
-        <td>{{i.pan}}</td>
-        <td>{{i.age}}</td>
-        <td>{{i.gender}}</td>
-        <td>{{i.email}}</td>
-        <td>{{i.city}}</td>
-        <td>
-          <a href="update_record/?data={{i.id}}"> <button type="button" name="button"> Edit </button> </a>
-          <a href="Delete/?data={{i.id}}"> <button type="button" name="button"> Delete</button> <a/>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+        <thead>
+          <tr>
+            <th>Sno</th>
+            <th>Name</th>
+            <th>Pan No.</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Email </th>
+            <th>City</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for i in data%}
+          <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.pan}}</td>
+            <td>{{i.age}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.email}}</td>
+            <td>{{i.city}}</td>
+            <td>
+              <a href="update_record/?data={{i.id}}"> <button type="button" name="button" onclick="alert('hello');"> Edit </button> </a>
+              <a href="Delete/?data={{i.id}}"> <button type="button" name="button"> Delete</button> <a/>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </fieldset>
-
   </body>
 </html>
