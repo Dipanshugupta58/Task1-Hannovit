@@ -3,3 +3,18 @@ h1
 {
   color: red;
 }
+#updateDiv
+{
+  position: absolute;
+  top: 15%;
+  left: 15%;
+
+  width: 70%;
+  height: 100%;
+/*   padding: 15% 35% 25% 35%; */
+  color: #000000;
+  background-color: rgba(200, 100, 0, 0.9);
+  text-align: center;
+  text-shadow: #333 0 1px 0;
+  display: none;
+}

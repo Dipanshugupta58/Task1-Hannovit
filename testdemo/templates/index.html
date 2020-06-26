@@ -11,11 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src={% static 'js/index1.js' %}></script>
+
+
+
   </head>
   <body>
     <fieldset class="container">
       <legend>Form</legend>
-        <form id="addRecordForm" class="row was-validated" data-toggle="validator" role="form" action="/add_record/" method="post"> {% csrf_token %}
+        <form id="addDataForm" class="row was-validated" data-toggle="validator" role="form" action="/add_record/" method="post"> {% csrf_token %}
 
           <div class="form-group col-6">
             <label for="lname">Name:</label>
@@ -38,7 +41,7 @@
 
           <div class="form-group col-6">
             <label for="lgender">Gender:</label>
-            <select class="form-control" name="gender" required>
+            <select class="form-control" name="gender" id='gender' required>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
@@ -61,7 +64,8 @@
           </div>
 
           <div class="form-group col-6">
-            <input type="submit" name="submit" class="btn btn-success" value="Add Record">
+            <!-- <input type="submit" name="submit" class="btn btn-success" value="Add Record"> -->
+            <button type="button" id="btnsave" class="btn btn-success" name="button">Save Record</button>
             <a href="Search/">
               <button type="button" class="btn btn-dark" name="search" > Go For Search </button>
             </a>
@@ -70,6 +74,61 @@
           </div>
       </form>
     </fieldset>
+
+    <div id="updateDiv" >
+      <fieldset class="container">
+        <legend style="">Update Form (ID: )</legend>
+          <form class="row was-validated" action="/update_record_save/" method="post"> {% csrf_token %}
+            <input type="text" name="id" id="uID" class="form-control" value="" placeholder="ID" >
+            <div class="form-group col-6">
+              <label for="lname">Name:</label>
+              <input type="name" name="name" id="uName" class="form-control" value="" placeholder="Name" >
+            </div>
+
+            <div class="form-group col-6">
+              <label for="lpanno">Pan Number:</label>
+              <input type="text" name="panno" id="uPan" class="form-control" pattern="[A-Z,0-9]{15}" value="" placeholder="Pan Number" >
+            </div>
+
+            <div class="form-group col-6">
+              <label for="lage">Age:</label>
+              <input type="text" name="age" id="uAge" class="form-control" pattern="[0-9]{2}" value="" placeholder="Age" >
+            </div>
+
+            <div class="form-group col-6">
+              <label for="lgender">Gender:</label>
+              <select class="form-control" id="uGender" name="gender" value="">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+              <!-- <input type="text" name="panno" class="form-control" placeholder="Pan Number" > -->
+            </div>
+
+            <div class="form-group col-6">
+              <label for="lemail">Email:</label>
+              <input type="email" name="email" id="uEmail" class="form-control" value="" placeholder="Email" >
+            </div>
+
+            <div class="form-group col-6">
+              <label for="lcity">City:</label>
+              <input type="text" name="city" id="uCity" class="form-control" value="" placeholder="City" >
+            </div>
+
+            <div class="form-group col-6">
+
+            </div>
+
+            <div class="form-group col-6">
+
+              <button type="button" id="btnClose" class="btn btn-dark" name="close">Close</button>
+              <button type="button" id="btnUpdate" class="btn btn-success" name="update">Update</button>
+              <!-- <input type="submit" name="submit" class="btn btn-success" value="Update"> -->
+              <!-- <button type="button" class="btn btn-dark" name="search" > Search </button> -->
+
+            </div>
+          </form>
+      </fieldset>
+    </div>
 
     <fieldset id="fRecord">
       <legend>Records</legend>
@@ -86,24 +145,261 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
-          {%for i in data%}
-          <tr>
-            <td>{{i.id}}</td>
-            <td>{{i.name}}</td>
-            <td>{{i.pan}}</td>
-            <td>{{i.age}}</td>
-            <td>{{i.gender}}</td>
-            <td>{{i.email}}</td>
-            <td>{{i.city}}</td>
-            <td>
-              <a href="update_record/?data={{i.id}}"> <button type="button" name="button" onclick="alert('hello');"> Edit </button> </a>
-              <a href="Delete/?data={{i.id}}"> <button type="button" name="button"> Delete</button> <a/>
-            </td>
-          </tr>
-          {% endfor %}
+        <tbody id="tbody">
+
         </tbody>
       </table>
     </fieldset>
+
   </body>
+
+  <script type="text/javascript">
+    $(function(){
+      $("document").ready(function(){
+          fetchAll();
+      });
+
+
+
+      //function for delete data **********************************************************************************************************
+      $('.btndelete').on('click',function(){
+        alert("Delete Record Button Press");
+
+        // var demo = $(this).closest("tr")
+        // var val = demo.find("td:eq(0)").text();
+        // $.ajax({
+        //   url : "Delete/",
+        //   type : "GET",
+        //   // data : "data="+{{i.id}},
+        //   data : "data="+val,
+        //   beforeSend : function(http){
+        //     alert("Request for Deleting Data in Server");
+        //   },
+        //   success : function(response, status, http){
+        //     alert("Record Successfully Deleted");
+        //   },
+        //   error : function(http, status, error){
+        //     alert("Some error Occured in Delete Case: "+ error +  "  " +status +  "  " + error);
+        //   },
+        //
+        // });
+
+      });
+
+
+
+
+      // add new record form *************************************************************************************************************
+      $("#btnsave").on('click',function(){
+        // var formData = new formData($('#addDataForm'));
+
+        // console.log($("#name").val());
+        var fName = $("#name").val();
+        var fId = $("#pan").val();
+        var fAge = $("#age").val();
+        var fEmail = $("#email").val();
+        var fGender = $("#gender").val();
+        var fCity = $("#city").val();
+
+        // console.log(fName.length);
+
+        if(fName != "" && fName.length>3)
+        {
+          // console.log(fId.length);
+          if(fId != "" && fId.length > 10)
+          {
+
+            if(fAge != "" && fAge.length <= 2)
+            {
+
+              if(fEmail != "")
+              {
+                if(fGender != "")
+                {
+                  if(fCity != "")
+                  {
+
+                    $.ajax({
+                      url : "/add_record/",
+                      type : "GET",
+                      data : {name:fName, id:fId, age:fAge, email:fEmail, gender: fGender, city: fCity},
+                      beforeSend : function(http){
+                        alert('Are you sure to save your data ..?');
+                      },
+                      success : function(response, status, http){
+                        alert("Data Saved");
+                      },
+                      error : function(http, status, error){
+                        alert("Some error occured in saving data ..!"+status + " " + status);
+                      },
+                    });
+
+                  }
+                  else {
+                    alert("Data Error");
+                  }
+                }
+                else {
+                  alert("Gender Error");
+                }
+              }
+            }
+          }
+        }
+        else {
+          alert("Nad");
+        }
+
+
+        // $.ajax({
+        //   url : "/add_record/",
+        //   type : "GET",
+        //   data : {name:fName, id:fId, age:fAge, email:fEmail, gender: fGender, city: fCity},
+        //   beforeSend : function(http){
+        //     alert('Are you sure to save your data ..?');
+        //   },
+        //   success : function(response, status, http){
+        //     alert("Data Saved");
+        //   },
+        //   error : function(http, status, error){
+        //     alert("Some error occured ..!"+status + " " + status);
+        //   },
+        //
+        // });
+      });
+
+      //function for update record ******************************************************************************************************
+      $('.btnEdit').on('click',function(){
+
+        // alert('hi');
+        var demo = $(this).closest("tr")
+        var val = demo.find("td:eq(0)").text();
+
+        $("#updateDiv").css("display","block");
+
+        $(".btn-dark").on('click',function(){
+          alert("Close Me");
+          $("#updateDiv").css("display","none");
+        });
+
+        //retrive data in updation form
+        $.ajax({
+          url: "/update_record",
+          type : "GET",
+          data : "data="+val,
+          // dataType : "JSON",
+          beforeSend : function(http){
+            alert("Are you want to sure to update that id: "+val+" record?");
+          },
+          success : function(response,status,http){
+            $("#uID").val(response[0]);
+            $("#uName").val(response[1]);
+            $("#uPan").val(response[2]);
+            $("#uAge").val(response[3]);
+            $("#uGender").val(response[4]);
+            $("#uEmail").val(response[5]);
+            $("#uCity").val(response[6]);
+          },
+          error : function(http,status,error){
+            alert('Some error occured in fetching record from Fetch Function');
+          },
+
+        });
+
+
+      });
+
+      //------------------------------------------------------------------------------------------------------------------------------
+      $('#btnUpdate').on("click",function(){
+        // send data from update form
+        var uid = $("#uID").val();
+        var uname = $("#uName").val();1
+        var upan = $("#uPan").val();
+        var uage = $("#uAge").val();
+        var ugender = $("#uGender").val();
+        var uemail = $("#uEmail").val();
+        var ucity = $("#uCity").val();
+
+        $.ajax({
+          url: "/update_record_save",
+          type : "GET",
+          data : {"id":uid, "name":uname,"panno":upan,"age":uage,"gender":ugender,"email":uemail,"city":ucity},
+          // dataType : "JSON",
+          beforeSend : function(http){
+            alert("Thanks for updating, if everthing goes good, we will response soon.");
+          },
+          success : function(response,status,http){
+            $("#updateDiv").css("display","none");
+            alert("Your Record successfully updated");
+          },
+          error : function(http,status,error){
+            alert('Some error occured');
+          },
+        });
+
+      });
+
+    });
+    function fetchAll()
+    {
+      // alert("fetchAll()");
+      $.ajax({
+        url : "/Disp",
+        type : "GET",
+        beforeSend : function(http){
+          alert("Before Send");
+        },
+        success : function(response , status , http ){
+          data = response;
+          // $("#tbody").html("<tr> <td> Hello </td> <tr");
+          // $("#tbody").html(data[1][0]);
+          var tbody = $("#tbody");
+          // var i = 0;
+          // var j = 0;
+
+          // while (i < data.length)
+          // while (i in data)
+          // {
+          //   var line = $('<tr> </tr>');
+          //   // while (j < data.length)
+          //   while (j in data)
+          //   {
+          //     line.append($("<td> </td>").html(data[j][i]));
+          //     j++;
+          //   }
+          //   // line.append($("<td> </td>").html("i,j"));
+          //   tbody.append(line);
+          //   i++;
+          //
+          // }
+
+
+          for (i in data)
+          {
+            var line = $('<tr> </tr>');
+            for(j in data)
+            {
+              line.append($("<td> </td>").html(data[j][i]));
+              // line.append(html("<td> Hello </td>"));
+            }
+            line.append($("<td> </td>").html("<button type='button' class='btnEdit'  name='button'> Edit </button> <button type='button' class='btndelete' name='button' > Delete </button>"));
+            tbody.append(line);
+          }
+          $('tr td:first').addClass("val");
+          $('tr:last').css("display","none");
+          alert("Success");
+        },
+        error : function(http , status , error){
+          alert("error");
+
+        }
+
+      });
+      // alert("l");
+    }
+
+  </script>
+
+
+
 </html>

@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # url(r'^admin/',admin.site.urls ),
     url(r'^$',views.index,name='index'),
+    url(r'^Disp',views.disp,name='disp'),
     url(r'^HOME',views.home1,name='home1'),
     url(r'^add_record/$',views.add_record,name='add_record'),
     url(r'^update_record/$',views.update_record,name='update_record'),
